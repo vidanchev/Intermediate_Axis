@@ -1,0 +1,127 @@
+\documentclass[a4paper]{article}
+
+\usepackage[margin=1in]{geometry} % full-width
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{graphicx, color}
+
+% Author info
+\title{Short explanation of the Intermediate Axis Theorem}
+\author{Victor I.  Danchev}
+
+\date{
+	Sofia University St.  Kliment Ohridski \\ 
+	\today
+}
+
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+	
+	Have you ever seen \href{https://www.youtube.com/watch?v=1n-HMSCDYtM}{this video}?
+	It first came to my attention in 2014 (when I was a first year student in Theoretical Physics).
+	It took me about 1 year to really understand what's going and another two to feel comfortable simulating it on a computer.
+	In fact,  this is not such a difficult task.
+	I've met a lot of people since then who were very interested in the phenomenology and the effect - it is usually referred to as the "Intermediate Axis Theorem". 
+	The purpose of this handout is to provide a concise and straightforward (hopefully intuitive) description of the intermediate axis theorem and to derive it in the case of small angles of deflection. 
+	This derivation will then be used to test a simple numerical integrator (using Runge-Kutta method) and verify its accuracy in this short deflection regime.
+	Be warned though,  it may contain traces of math!
+	\end{abstract}
+
+	\tableofcontents
+	
+	\section{Introduction} \label{Intro}
+	
+	The intermediate axis theorem states that a body's rotational motion in 3 dimensions will only be stable around an axis which has the highest/lowest moment of inertia.
+	In other words,  a body rotating around the intermediate axis is quasi-stable and the smallest deviation from a perfect alignment between the angular velocity vector and that intermediate axis will result in exponential departure of that vector.
+	Since a real body cannot be perfectly rotated around that intermediate axis, the result is an oscillatory motion between the two opposing states (i.e. periodic flipping between one angular velocity vector and its exact opposite) caused by any small misalignment or external effect.	
+	
+	\section{Preliminaries - motion of rigid body in 3 dimensions}\label{rigid_body_dynamics}
+
+	Although they are all around us, rigid bodies have a very non-linear motion which leads to the intermediate axis theorem.
+	I will start from the motion of a free rigid body (i.e. no external torques) to model the motion.
+	Such a body can be described by 6 degrees of freedom, 3 of which form its angular velocity vector $\vec{\omega}$.
+	The other parameters must be \textbf{at least} three but may be more (connected by constraints).
+	Some popular representations are directive cosine matrix (DCM), quaternions, Euler angles, Rodriguez parameters, etc.
+	Euler's equation looks something like this
+	\begin{eqnarray}\label{Euler_eq}
+		\frac{{}^{\mathcal{B}}d \vec{L} }{dt} + \vec{ \omega }_{\mathcal{B/N}}\times\vec{L} = \vec{\tau},
+	\end{eqnarray}
+	where $\vec{L}$ is the angular momentum vector, $\omega_{\mathcal{B/N}}$ is the angular rate of the body frame $\mathcal{B}$ with respect to some other reference inertial frame $\mathcal{N}$ (to be denoted just $\omega$ further down) and $\tau$ is the sum of any external torques on the body.
+	
+	I will not go into the details of how this equation comes to be, but it is in fact a consequence of one of the most fundamental conservation laws - the conservation of angular momentum.
+	In fact, this law is fully derived from the fact that the total change of angular momentum in some reference inertial frame (such as $\mathcal{N}$) is equal to the external torques, or
+	\begin{eqnarray}\label{L_conservation}
+		\frac{{}^{\mathcal{N}}d \vec{L} }{dt} = \vec{\tau}.
+	\end{eqnarray}
+	Purely geometrically (looking at how basis vectors transform and all that), one can show that a time derivative of a vector in one frame (say $\mathcal{A}$) is related to that in another (say $\mathcal{B}$) as
+	\begin{eqnarray}\label{omega_transform}
+		\frac{{}^{\mathcal{B}}d \vec{v} }{dt} = \frac{{}^{\mathcal{A}}d \vec{v} }{dt} + \omega_{\mathcal{A/B}}\times\vec{v}.
+	\end{eqnarray}
+
+	Euler's equations \eqref{Euler_eq} are simply a direct consequence of \eqref{L_conservation} and \eqref{omega_transform} when applied with some external torque.
+	We won't go into anything more detailed, but two excellent sources where you can read more are \cite{David_Tong,Goldstein}.
+
+	Now it is not so obvious that these equations are non-linear but once they are written out in full (element-wise by $\omega$) this is easy to see.
+	To make things simpler, we will pass into a special body reference frame aligned with the so-called body axes.
+	Long story short - the angular momentum is obtained from the angular velocity through a linear transformation which is a 3x3 tensor (matrix in any given basis) as $\vec{L} = \mathbb{I}\vec{\omega}$.
+	Now this tensor has to have certain properties to be physically meaningful - namely it has to be symmetric ($\mathbb{I}^T = \mathbb{I}$).
+	This means that it always has three real eigenvalues and three real eigenvectors which form what is called a principal body frame.
+	When written in terms of these principal axes, the tensor's components are just diagonal terms.
+
+	To summarize - if we pick any body frame (X, Y, Z of the body how we like them), this will lead to 6 independent components for $\mathbb{I}$ and make our life really complicated.
+	To avoid this, from this point on we'll be working in the principal body axes where $\mathbb{I} = \mathrm{diag}( I_1 , I_2 , I_3 )$.
+	The good news is that for a solid body, this tensor is a constant (i.e. $I_1, I_2$ and $I_3$ are constants).
+	This is not the case if you take into account flexible and deformable bodies - they are \textbf{a lot} more complicated to describe.
+
+	Now, considering that we're in the principal body frame, the components of the angular momentum in this frame are just $L_1 = I_1 \omega_1$, $L_2 = I_2 \omega_2$ and $L_3 = I_3 \omega_3$.
+	Using this directly in \eqref{Euler_eq} and computing the right-hand side with $\vec{\tau} = 0$, we get the 3 equations for the angular rate
+	\begin{eqnarray}
+		I_1\dot{\omega_1} & = & ( I_2 - I_3 )\omega_2 \omega_3 \nonumber \\
+		I_2\dot{\omega_2} & = & ( I_3 - I_1 )\omega_3 \omega_1 \\
+		I_3\dot{\omega_3} & = & ( I_1 - I_2 )\omega_1 \omega_2. \nonumber
+	\end{eqnarray} 
+	Now we can see that the system is indeed non-linear - on the righ-hand side the $\omega$ components are mixing and are always of second order.
+	We can also see that there is some interplay between the moments of inertia (their differences and division appearing into the right-hand side).
+	It is best to divide to the constant terms on the left, leaving us with the standard system form 
+	\begin{eqnarray}
+		\dot{\omega_1} & = & \frac{( I_2 - I_3 )}{I_1}\omega_2 \omega_3 \nonumber \\
+		\dot{\omega_2} & = & \frac{( I_3 - I_1 )}{I_2}\omega_3 \omega_1 \\
+		\dot{\omega_3} & = & \frac{( I_1 - I_2 )}{I_3}\omega_1 \omega_2. \nonumber
+	\end{eqnarray}
+
+	As we'll see later - the whole "magic" of the intermediate axis comes from these right-hand coefficients formed by the difference of two moments of inertia divided by the third!
+
+	These equations describe the \textbf{angular velocity} of a body in 3 dimensions, now if we want to describe the full body motion, we must also add equations for its orientation.
+	The different parametrizations already mentioned will have a different number of parameters but these parameters (with constraints so that physically there are only 3 degrees of freedom).
+	Something which all of these have in common, however, is that these parameters' derivatives are somehow related to the angular rate vector $\vec{\omega}$.
+	In the code, I have used the relation between unit quaternions and attitude to integrate the 7 equations of motion (with 1 constraint) numerically.
+	For the purpose of this small proof, however, we will only need to use the Euler equation.
+	More on attitude (orientation) parametrizations and their applications can be found in the excellent book \cite{ADCS_bible}.
+
+	\section{Perturbative solution and stability}
+
+	\section{Comparison and code verification}
+	
+%	\newpage
+	\begin{thebibliography}{9}
+
+	\bibitem{David_Tong}
+	D.Tong, \textit{Lecture Notes on Classical Dynamics}, available \href{http://www.damtp.cam.ac.uk/user/tong/dynamics/clas.pdf}{here}.
+
+	\bibitem{Goldstein}
+	H.~Goldstein, C.~Poole and J.~Safko, \textit{Classical Mechanics}.
+	
+	\bibitem{ADCS_bible}
+	F.~Landis~Markley and John~L.~Crassidis, \textit{Fundamentals of Spacecraft Attitude Determination and Control}
+
+
+
+	\end{thebibliography}
+
+\end{document}
