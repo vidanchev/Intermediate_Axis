@@ -33,6 +33,41 @@ def q_mat( qu ):
 
     return dquat
 
+# Directive Cosine Matrix (DCM) from a Quaternion
+# Inputs:
+# - 4D array for the unit quaternion ( qu[ 4 ] )
+# Outputs:
+# - Directive Cosine Matrix (DCM) which is a 3x3 SO(3) rep dcm[ 3 ][ 3 ]
+# NOTE: The quaternion is renormed for each case (to make it unit even if it's not)
+def dcm_from_q( qu ):
+
+    # If the length of the quaternion was wrong - return unit matrix and print the error
+    if len( qu ) != 4:
+        print( "Wrong quaternion length, len( qu ) == 4 is required!" )
+        print( "Returning unit DCM = diag( 1 , 1 , 1 )" )
+        
+        dcm = [ [ 1.0 , 0.0 , 0.0 ] ,
+                [ 0.0 , 1.0 , 0.0 ] ,
+                [ 0.0 , 0.0 , 1.0 ] ]
+        return dcm
+    
+    # Find the norm and renorm the Quaternion for each case
+    q_norm = np.sqrt( np.dot( qu , qu ) )
+    for i in range( 0 , 4 ):
+        qu[ i ] /= q_norm
+    
+    # Compute squares of quaternion and then compute the dcm
+    q0s = qu[ 0 ]*qu[ 0 ]
+    q1s = qu[ 1 ]*qu[ 1 ]
+    q2s = qu[ 2 ]*qu[ 2 ]
+    q3s = qu[ 3 ]*qu[ 3 ]
+
+    dcm = [ [ q0s + q1s - q2s - q3s , 2.0*( qu[ 1 ]*qu[ 2 ] + qu[ 0 ]*qu[ 3 ] ) , 2.0*( qu[ 1 ]*qu[ 3 ] - qu[ 0 ]*qu[ 2 ] ) ] ,
+            [ 2.0*( qu[ 2 ]*qu[ 1 ] - qu[ 0 ]*qu[ 3 ] ) , q0s - q1s + q2s - q3s , 2.0*( qu[ 2 ]*qu[ 3 ] + qu[ 0 ]*qu[ 1 ] ) ] ,
+            [ 2.0*( qu[ 3 ]*qu[ 1 ] + qu[ 0 ]*qu[ 2 ] ) , 2.0*( qu[ 3 ]*qu[ 2 ] - qu[ 0 ]*qu[ 1 ] ) , q0s - q1s - q2s + q3s ] ]
+
+    return dcm
+
 # Torque function
 # Inputs:
 # - time from some arbitrary epoch time [sec]

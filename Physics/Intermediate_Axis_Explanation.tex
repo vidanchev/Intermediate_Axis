@@ -91,7 +91,7 @@
 	It is best to divide to the constant terms on the left, leaving us with the standard system form 
 	\begin{eqnarray}
 		\dot{\omega_1} & = & \frac{( I_2 - I_3 )}{I_1}\omega_2 \omega_3 \nonumber \\
-		\dot{\omega_2} & = & \frac{( I_3 - I_1 )}{I_2}\omega_3 \omega_1 \\
+		\dot{\omega_2} & = & \frac{( I_3 - I_1 )}{I_2}\omega_3 \omega_1 \\ \label{Euler_full}
 		\dot{\omega_3} & = & \frac{( I_1 - I_2 )}{I_3}\omega_1 \omega_2. \nonumber
 	\end{eqnarray}
 
@@ -105,6 +105,58 @@
 	More on attitude (orientation) parametrizations and their applications can be found in the excellent book \cite{ADCS_bible}.
 
 	\section{Perturbative solution and stability}
+
+	\textbf{Currently only the equations and crudely written, to be exlpained a bit better :)}
+
+	Exact solution is $\vec{\omega} = [ 0 , 0 , \Omega ]^T$ which obviously satisfies \eqref{Euler_full}, where $\Omega = \mathrm{const}$.
+
+	Consider perturbing it slightly transversely to the original direction with $\delta \vec{\omega} = [ \delta\omega_1 , \delta\omega_2 , 0 ]$, where $\delta\omega_i << \Omega$ are of the same small order.
+	We'll work to 1st order in $\delta\omega$.
+
+	Now the equations of motion become
+	\begin{eqnarray}\label{Perturbed_Euler_1}
+		\delta\dot{\omega}_1 & = & \frac{( I_2 - I_3 )}{I_1}\Omega \delta\omega_2 + O( \delta\omega^2 ) \\ \label{Perturbed_Euler_2}
+		\delta\dot{\omega}_2 & = & \frac{( I_3 - I_1 )}{I_2}\Omega \delta\omega_1 + O( \delta\omega^2 ) \\ \label{Perturbed_Euler_3}
+		\delta\dot{\omega}_3 & = & O( \delta\omega^2 ).
+	\end{eqnarray}
+
+	Since $\delta\omega_i << \Omega$, for small external perturbations we can drop the quadratic term $O(\delta\omega^2) \rightarrow 0 $.
+	Third equation is automatically satisfied, the other two give us a linear system - we have linearized near an equilibrium point.
+
+	Differentiating \eqref{Perturbed_Euler_1} and substituting \eqref{Perturbed_Euler_2} into the right-hand-side (this can be done the other way around), we get to first order in $\Omega$
+	\begin{eqnarray}
+		\delta\ddot{\omega}_1 = \frac{( I_2 - I_3 )}{I_1}\frac{( I_3 - I_1 )}{I_2}\Omega^2 \delta\omega_1.
+	\end{eqnarray}
+
+	This is a linear 2nd order equation which looks just like a harmonic oscillator $\ddot{x} = \kappa^2 x$.
+	We can define
+	\begin{eqnarray}\label{kappa_eq}
+		\kappa^2 = \frac{( I_2 - I_3 )}{I_1}\frac{( I_3 - I_1 )}{I_2}\Omega^2,
+	\end{eqnarray}
+	which means that we can solve this right away.
+	The solutions to this equation are quantitatively different depending on the sign, however.
+	For $\kappa^2 < 0$ the general solution is a superposition of sine and cosine functions (complex exponentials) while for $\kappa^2 > 0$ it is a superposition of real exponentials.
+	In the former case, solutions are oscillatory and we have stability since $\delta \omega_1$ and $\delta \omega_2$ will remain bounded within the same range (they will be proportional to $\sin( \kappa t )$ and $\cos( \kappa t )$).
+	In the latter case, however, solutions are exponential and even the smallest perturbation will grow, leading us away from stability (proportional to $\exp( \pm \kappa t )$ ).
+
+	So only the sign of $\kappa$ determines the stability of the equilibrium.
+	For it to be stable, we must have $\kappa^2 < 0$.
+	Now $\Omega^2 > 0$ since $\Omega$ is some real number which is the unperturbed angular velocity.
+	The individual moments of inertia are each a positive number as well $ I_1 > 0, I_2 > 0, I_3 > 0 $.
+	Then only the relative difference between the moments of inertia determines the sign.
+	Motion is stable when $$ ( I_2 - I_3 )( I_3 - I_1 ) < 0. $$
+	There are two ways for this to happen:
+	\begin{itemize}
+		\item $ I_2 > I_3 $ \textit{and} $ I_3 < I_1 \rightarrow I_3 $ is the smallest moment of inertia
+		\item $ I_2 < I_3 $ \textit{and} $ I_3 > I_1 \rightarrow I_3 $ is the largest moment of inertia.
+	\end{itemize}
+	It is easy to convince oneself that in any situation when $I_3$ is the intermediate moment of inertia - the sign will be positive and so the motion will be unstable (following exponential instead of periodic dependence).
+
+	Last step -- keep in mind that nothing is special about $I_3$ -- we just selected our original angular velocity to be along it.
+	We can perform the same analysis for $[ 0 , \Omega , 0 ]^T$ and $[ \Omega , 0 , 0 ]$ and we would get the same result for $I_1$ and $I_2$ (of course it's much easier just to transform our coordinate frame).
+	
+	In conclussion, whichever axis we are rotating about -- there is an equilibrium but this equilibrium is stable only if the axis is with the largest or smallest moment of inertia - otherwise the smallest external disturbance or misalignment will drive the rotation away from that axis exponentially quickly!
+	This is the intermediate axis theorem in mathematical language -- it is a statement about the stability of a nonlinear system. 
 
 	\section{Comparison and code verification}
 	
