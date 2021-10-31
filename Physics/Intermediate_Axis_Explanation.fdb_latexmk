@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1635108109 "/Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.tex" "/Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.pdf" "Intermediate_Axis_Explanation" 1635108110
-  "/Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.aux" 1635108109 2235 dc231edace450917a998685db61b7deb ""
-  "/Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.tex" 1635108108 12871 36a6e218a1c3bf8183ee9e1ca097e2da ""
+["pdflatex"] 1635702127 "/Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.tex" "/Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.pdf" "Intermediate_Axis_Explanation" 1635702140
+  "/Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.aux" 1635702129 2525 8240974fc8b377899d16494a1d014c91 ""
+  "/Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.tex" 1635702139 15276 2f4e38dc389359073ae861b9c60e2097 ""
   "/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2020/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2020/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -101,15 +101,15 @@
   "/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1586288239 4811913 0be9a7e86c70a26e5e3042966bcd7097 ""
   "/usr/local/texlive/2020/texmf-var/web2c/pdftex/pdflatex.fmt" 1586288259 2432462 fd0fa20e9a3cb5f8169fd0ba1c955158 ""
   "/usr/local/texlive/2020/texmf.cnf" 1586288231 577 d60164b4589a341208aff7a667fbbdcb ""
-  "Intermediate_Axis_Explanation.aux" 1635108109 2235 dc231edace450917a998685db61b7deb "pdflatex"
-  "Intermediate_Axis_Explanation.out" 1635108109 271 2946b1cc9c9389be7781c84e3b27aee1 "pdflatex"
-  "Intermediate_Axis_Explanation.tex" 1635108108 12871 36a6e218a1c3bf8183ee9e1ca097e2da ""
-  "Intermediate_Axis_Explanation.toc" 1635108109 355 1c4c8331e31bc648fb45d5759c1c8543 "pdflatex"
+  "Intermediate_Axis_Explanation.aux" 1635702129 2525 8240974fc8b377899d16494a1d014c91 "pdflatex"
+  "Intermediate_Axis_Explanation.out" 1635702129 445 3e5724655f3985d740f165c16e01acdc "pdflatex"
+  "Intermediate_Axis_Explanation.tex" 1635702139 15276 2f4e38dc389359073ae861b9c60e2097 ""
+  "Intermediate_Axis_Explanation.toc" 1635702129 563 59bca789c39b2c017289990a59ecf3cd "pdflatex"
   (generated)
-  "Intermediate_Axis_Explanation.out"
+  "Intermediate_Axis_Explanation.toc"
   "/Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.pdf"
   "/Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.log"
   "Intermediate_Axis_Explanation.aux"
   "Intermediate_Axis_Explanation.pdf"
+  "Intermediate_Axis_Explanation.out"
   "Intermediate_Axis_Explanation.log"
-  "Intermediate_Axis_Explanation.toc"

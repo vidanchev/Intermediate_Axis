@@ -148,7 +148,6 @@ INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.toc
 INPUT /Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.toc
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
-OUTPUT /Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.toc
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
@@ -157,9 +156,11 @@ INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+OUTPUT /Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.toc
 INPUT /usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.aux
 INPUT /Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.out
 INPUT /Users/user/repos/Intermediate_Axis/Physics/Intermediate_Axis_Explanation.out

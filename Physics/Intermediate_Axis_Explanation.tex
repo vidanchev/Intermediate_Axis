@@ -106,22 +106,32 @@
 
 	\section{Perturbative solution and stability}
 
-	\textbf{Currently only the equations and crudely written, to be exlpained a bit better :)}
+	Finding exact solutions to \eqref{Euler_full} is not an easy task as is usually the case with non-linear systems of equations.
+	Nevertheless, one very simple exact solution can be found -- the case where a body is rotating exactly around one of its principal axes.
+	For the sake of concreteness, say that the angular velocity $\omega$ as measured in the body frame is only along the Z-axis or in other words $\vec{\omega} = [ 0 , 0 , \Omega ]^T$.
+	This trivially satisfies \eqref{Euler_full}, where $\Omega = \mathrm{const}$ is some fixed value.
+	The left-hand side is 0 since the angular velocity is constant for all 3 axes and since at least one of $\omega_1$ or $\omega_2$ multiplies the right-hand side (but they are both 0), all equations are satisfied.
 
-	Exact solution is $\vec{\omega} = [ 0 , 0 , \Omega ]^T$ which obviously satisfies \eqref{Euler_full}, where $\Omega = \mathrm{const}$.
-
-	Consider perturbing it slightly transversely to the original direction with $\delta \vec{\omega} = [ \delta\omega_1 , \delta\omega_2 , 0 ]$, where $\delta\omega_i << \Omega$ are of the same small order.
-	We'll work to 1st order in $\delta\omega$.
-
-	Now the equations of motion become
+	This shows us that a body can spin about any of its principal axes but doesn't tell us anything about stability.
+	Stability is a statement about how a system acts when "slightly" perturbed or when a "slightly" different intiali condition is given.
+	When a system is stable, nearby trajectories (with very close initial conditions) tend to stay close indefinitely.
+	The word "slightly" has its commas since it is not very precise in this way.
+	What do we mean by perturbing "slightly" -- this usually means that we change the initial condition by a value which is of a much lower magnitude than the one we started with (i.e. we can treat it as a very small correction).
+	Consider perturbing our system transversely to the original direction with the initial "kick" $\delta \vec{\omega} = [ \delta\omega_1 , \delta\omega_2 , 0 ]$, where $\delta\omega_i << \Omega$ are of the same small order.
+	The statement "slightly perturbed" for us means that we can safely work to 1st order in $\delta\omega$.
+	This is true since if $\delta\omega << \Omega$, then $\delta\omega^n$ will be of progressively smaller magnitude.
+	Say that $\delta\omega / \Omega \cong 0.1$, then each follow-up term will be an order of magnitude smaller and if we are looking at 1\% accuracy for example, we can safely disregard anything but the first order.
+	In this case we are looking for a quantitative effect, so this will be a perfectly adequate.
+	Adding the small perturbation $\delta\vec{\omega}$, the equations of motion become
 	\begin{eqnarray}\label{Perturbed_Euler_1}
 		\delta\dot{\omega}_1 & = & \frac{( I_2 - I_3 )}{I_1}\Omega \delta\omega_2 + O( \delta\omega^2 ) \\ \label{Perturbed_Euler_2}
 		\delta\dot{\omega}_2 & = & \frac{( I_3 - I_1 )}{I_2}\Omega \delta\omega_1 + O( \delta\omega^2 ) \\ \label{Perturbed_Euler_3}
 		\delta\dot{\omega}_3 & = & O( \delta\omega^2 ).
 	\end{eqnarray}
 
-	Since $\delta\omega_i << \Omega$, for small external perturbations we can drop the quadratic term $O(\delta\omega^2) \rightarrow 0 $.
-	Third equation is automatically satisfied, the other two give us a linear system - we have linearized near an equilibrium point.
+	As mentioned above, $\delta\omega_i << \Omega$ means that we can assume for the quadratic term $O(\delta\omega^2) \rightarrow 0 $.
+	The third equation is automatically satisfied because of this while the other two give us a linear system for the small perturbations $\delta \omega_1$ and $\delta \omega_2$
+	What we have performed is called a linearization near an equilibrium point (where the original system has a solution with zero-derivative).
 
 	Differentiating \eqref{Perturbed_Euler_1} and substituting \eqref{Perturbed_Euler_2} into the right-hand-side (this can be done the other way around), we get to first order in $\Omega$
 	\begin{eqnarray}
@@ -139,10 +149,10 @@
 	In the former case, solutions are oscillatory and we have stability since $\delta \omega_1$ and $\delta \omega_2$ will remain bounded within the same range (they will be proportional to $\sin( \kappa t )$ and $\cos( \kappa t )$).
 	In the latter case, however, solutions are exponential and even the smallest perturbation will grow, leading us away from stability (proportional to $\exp( \pm \kappa t )$ ).
 
-	So only the sign of $\kappa$ determines the stability of the equilibrium.
+	We will write the exact solution to the system in the following section but the important point is that only the sign of $\kappa$ determines the stability of the equilibrium.
 	For it to be stable, we must have $\kappa^2 < 0$.
 	Now $\Omega^2 > 0$ since $\Omega$ is some real number which is the unperturbed angular velocity.
-	The individual moments of inertia are each a positive number as well $ I_1 > 0, I_2 > 0, I_3 > 0 $.
+	The individual moments of inertia are each a positive number as well $ I_1 > 0, I_2 > 0, I_3 > 0 $ on purely physical grounds (mass times distance squarred).
 	Then only the relative difference between the moments of inertia determines the sign.
 	Motion is stable when $$ ( I_2 - I_3 )( I_3 - I_1 ) < 0. $$
 	There are two ways for this to happen:
@@ -152,13 +162,15 @@
 	\end{itemize}
 	It is easy to convince oneself that in any situation when $I_3$ is the intermediate moment of inertia - the sign will be positive and so the motion will be unstable (following exponential instead of periodic dependence).
 
-	Last step -- keep in mind that nothing is special about $I_3$ -- we just selected our original angular velocity to be along it.
-	We can perform the same analysis for $[ 0 , \Omega , 0 ]^T$ and $[ \Omega , 0 , 0 ]$ and we would get the same result for $I_1$ and $I_2$ (of course it's much easier just to transform our coordinate frame).
+	So, we have proven this for $I_3$ but keep in mind that nothing is special about the Z-axis -- we just selected our original angular velocity to be along it.
+	We can perform the same analysis for $[ 0 , \Omega , 0 ]^T$ and $[ \Omega , 0 , 0 ]$ with the perturbations along $\delta\vec{\omega} = [ \delta\omega_1 , 0 , \delta\omega_3 ]^T $ or $\delta\vec{\omega} = [ 0 , \delta\omega_2 , \delta\omega_3 ]^T $ respectively and we would get the same result for $I_1$ and $I_2$ (of course it's much easier just to transform our coordinate frame).
 	
 	In conclussion, whichever axis we are rotating about -- there is an equilibrium but this equilibrium is stable only if the axis is with the largest or smallest moment of inertia - otherwise the smallest external disturbance or misalignment will drive the rotation away from that axis exponentially quickly!
 	This is the intermediate axis theorem in mathematical language -- it is a statement about the stability of a nonlinear system. 
-
+	
 	\section{Comparison and code verification}
+	\subsection{Estimating the T-Handle moments of inertia}
+	\subsection{Numerical vs. perturbative results}
 	
 %	\newpage
 	\begin{thebibliography}{9}

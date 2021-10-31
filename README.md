@@ -16,11 +16,13 @@ I will also add mathematical description and perturbative description to be used
 
 - **Code** contains all the code (written in Python) which simulates the phenomenon.
 It is split into several .py files as follows:
-  - **Parameters_and_Constrants** includes all the physical parameters and inertial properties of the body to be simulated;
-  - **RK_Driver** contains several functions which compute the right-hand side of the dynamical differential equations and drives numerical integration through a classical Runge-Kutta (RK4) integrator;
-  - **Visualizations** contains some different visualization functions (either as 2D plots or time-dependent 3D animation with a vector);
-  - **Test_Environment** is used for general testing of different functions and for a driver of the integration + plotting;
-  - **Perturbative_Test** is used to check between the analytical solution (small deviation) and the numerical results obtained by the integrator - it is a verification that the code works in small offset from the intermediate axis;
+  - **Parameters_and_Constrants.py** includes all the physical parameters and inertial properties of the body to be simulated;
+  - **RK_Driver.py** contains several functions which compute the right-hand side of the dynamical differential equations and drives numerical integration through a classical Runge-Kutta (RK4) integrator;
+  - **Visualizations.py** contains some different visualization functions (either as 2D plots or time-dependent 3D animation with a vector);
+  - **Test_Environment.py** is used for general testing of different functions and for a driver of the integration + plotting;
+  - **Perturbative_Test.py** is used to check between the analytical solution (small deviation) and the numerical results obtained by the integrator - it is a verification that the code works in small offset from the intermediate axis;
 - **Physics** contains a LaTeX document with the explanation of some of the basic concepts, it contains a general mathematical description of the rotary motion of a body in 3 dimensions and solves the differential equations perturbatively in the case of a small deviation from the intermediate axis.
 
 ## Running the code for the T-Handle scenario
+The script **Perturbative_Test.py** has a configuration which is equivalent to that from the video (as far as I can tell).
+**TO BE CONTINUED** 

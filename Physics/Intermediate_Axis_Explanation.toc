@@ -2,3 +2,5 @@
 \contentsline {section}{\numberline {2}Preliminaries - motion of rigid body in 3 dimensions}{1}{section.2}%
 \contentsline {section}{\numberline {3}Perturbative solution and stability}{3}{section.3}%
 \contentsline {section}{\numberline {4}Comparison and code verification}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Estimating the T-Handle moments of inertia}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Numerical vs. perturbative results}{4}{subsection.4.2}%

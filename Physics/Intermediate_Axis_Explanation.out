@@ -2,3 +2,5 @@
 \BOOKMARK [1][-]{section.2}{Preliminaries - motion of rigid body in 3 dimensions}{}% 2
 \BOOKMARK [1][-]{section.3}{Perturbative solution and stability}{}% 3
 \BOOKMARK [1][-]{section.4}{Comparison and code verification}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Estimating the T-Handle moments of inertia}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Numerical vs. perturbative results}{section.4}% 6
