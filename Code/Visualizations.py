@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 from RK_Driver import dcm_from_q
 
@@ -51,7 +53,7 @@ def animate_3D( time , om_arr ):
 # Inputs:
 # - Time array (time[ N ]) [sec]
 # - Unit quaternion array (q_arr[ N ][ 4 ]) [-]
-def animate_dreibein( time , q_arr ):
+def animate_dreibein_old( time , q_arr ):
 
     # Define the initial vectors for [ 1 , 0 , 0 , 0 ]
     e_1 = [ 1.0 , 0.0 , 0.0 ]
@@ -86,3 +88,35 @@ def animate_dreibein( time , q_arr ):
         ax.set_zlim3d( -1.2 , 1.2 )
 
         plt.pause( 0.01 )
+
+# Update the arrows for the dreibein
+# Inputs:
+# - Unit quaternion at current time step q_arr[ 4 ] [-]
+# Output:
+# - 3D array with zeros (the origin of the vectors)
+# - 3D array containing v_i (the three vectors) for i = 0, 1, 2 TRANSPOSED
+def get_arrows( q_arr ):
+
+    # Define the initial vectors for [ 1 , 0 , 0 , 0 ]
+    e_1 = [ 1.0 , 0.0 , 0.0 ]
+    e_2 = [ 0.0 , 1.0 , 0.0 ]
+    e_3 = [ 0.0 , 0.0 , 1.0 ]
+    # These forma triad (dreibein) of vectors { e_1 , e_2 , e_3 } which are orthonormal
+    # They will be rotated to visualize a body's motion
+
+    # Initialize 3 vectors which will hold the rotated dreibein for each step
+    v_1 = np.zeros( 3 )
+    v_2 = np.zeros( 3 )
+    v_3 = np.zeros( 3 )
+
+    # Compute the DCM from the current quaternion
+    dcm_q = dcm_from_q( q_arr )
+
+    v_1 = np.matmul( dcm_q , e_1 )
+    v_2 = np.matmul( dcm_q , e_2 )
+    v_3 = np.matmul( dcm_q , e_3 )
+
+    o_vec = np.zeros( ( 3 , 3 ) ) # Origin of the vectors
+    v_vec = np.transpose( np.array( [ v_1 , v_2 , v_3 ] ) ) # Matrix indexing each of the vector components
+
+    return o_vec[ 0 ], o_vec[ 1 ], o_vec[ 2 ], v_vec[ 0 ], v_vec[ 1 ], v_vec[ 2 ]

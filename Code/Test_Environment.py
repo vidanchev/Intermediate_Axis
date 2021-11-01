@@ -2,7 +2,14 @@
 import numpy as np
 from RK_Driver import rk_step
 from Parameters_and_Constants import pi
-from Visualizations import plot_2D, animate_3D, animate_dreibein
+from Visualizations import plot_2D, animate_3D, animate_dreibein_old, get_arrows
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+def update( q_arr ):
+    global quiver
+    quiver.remove( )
+    quiver = ax.quiver( *get_arrows( q_arr ) , normalize = True , colors = [ "red" , "green" , "blue" ] ) # Get initial state
 
 if __name__ == "__main__":
 
@@ -30,6 +37,20 @@ if __name__ == "__main__":
     for i in range( 0 , npoints - 1 ):
         [ q_arr[ i + 1 ] , om_arr[ i + 1 ] ] = rk_step( [ q_arr[ i ] , om_arr[ i ] ] , time[ i ] , dt )
     
+    # Make a 3D animation of 3 basis vectors (dreibein) as the body-fixed axes
+
+    fig, ax = plt.subplots( subplot_kw = dict( projection = "3d" ) )
+
+    quiver = ax.quiver( *get_arrows( q_arr[ 0 ] ) , normalize = True , colors = [ "red" , "green" , "blue" ] ) # Get initial state
+    
+    ax.set_xlim3d( -1.2 , 1.2 )
+    ax.set_ylim3d( -1.2 , 1.2 )
+    ax.set_zlim3d( -1.2 , 1.2 )
+
+    ani = FuncAnimation( fig , update , frames = q_arr , interval = 50 )
+    ani.save( 'Intermediate_Axis.gif' )
+    plt.show()
+
     #plot_2D( time , om_arr , "2D_Plot" )
     #animate_3D( time , om_arr )
-    animate_dreibein( time , q_arr )
+    #animate_dreibein_old( time , q_arr )
