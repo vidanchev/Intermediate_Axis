@@ -17,7 +17,8 @@ if __name__ == "__main__":
     q_init = [ 1.0 , 0.0 , 0.0 , 0.0 ]
 
     # Initial body angular velocity in body-frame [rad/s]
-    om_init = [ 0.0 , pi/3.0 , pi/20.0 ]
+    om_init = [ 1.0/( 300.0*pi ) , pi/3.0 , 0.0 ]
+    f_rate = om_init[ 1 ]/( 2.0*pi ) # Frequency in [Hz]
 
     npoints = 1000 # Number of points for integrator [-]
     time_tot = 120.0 # Simulation time [sec]
@@ -48,7 +49,7 @@ if __name__ == "__main__":
     ax.set_zlim3d( -1.2 , 1.2 )
 
     ani = FuncAnimation( fig , update , frames = q_arr , interval = 50 )
-    ani.save( 'Intermediate_Axis.gif' )
+    ani.save( "Intermediate_Axis_Run_" + str( "{0:.2f}".format( f_rate ) ) + "Hz.gif" )
     plt.show()
 
     #plot_2D( time , om_arr , "2D_Plot" )

@@ -34,6 +34,8 @@
 	\end{abstract}
 
 	\tableofcontents
+
+	\newpage
 	
 	\section{Introduction} \label{Intro}
 	
@@ -134,7 +136,7 @@
 	What we have performed is called a linearization near an equilibrium point (where the original system has a solution with zero-derivative).
 
 	Differentiating \eqref{Perturbed_Euler_1} and substituting \eqref{Perturbed_Euler_2} into the right-hand-side (this can be done the other way around), we get to first order in $\Omega$
-	\begin{eqnarray}
+	\begin{eqnarray}\label{Perturbed_oscillator}
 		\delta\ddot{\omega}_1 = \frac{( I_2 - I_3 )}{I_1}\frac{( I_3 - I_1 )}{I_2}\Omega^2 \delta\omega_1.
 	\end{eqnarray}
 
@@ -168,11 +170,61 @@
 	In conclussion, whichever axis we are rotating about -- there is an equilibrium but this equilibrium is stable only if the axis is with the largest or smallest moment of inertia - otherwise the smallest external disturbance or misalignment will drive the rotation away from that axis exponentially quickly!
 	This is the intermediate axis theorem in mathematical language -- it is a statement about the stability of a nonlinear system. 
 	
-	\section{Comparison and code verification}
+	\section{Comparison with the video and code verification}
+
 	\subsection{Estimating the T-Handle moments of inertia}
-	\subsection{Numerical vs. perturbative results}
+
+	The general definition of the moment of inertia tensor is 
+	\begin{eqnarray}\label{moi_definition}
+		\mathbf{I} = \int_{V} \rho{\vec{r}}( \hat{ \delta } |\vec{r}|^2 - \vec{r} \otimes \vec{r} ) d^3 \vec{r}, 
+	\end{eqnarray}
+	where $\hat{\delta} = \mathrm{diag( 1 , 1 , 1 )}$ is the unit 3x3 matrix, $\vec{r}$ is the radius vector from the point where we measure the moment of inertia and $\rho(\vec{r})$ is the mass density at that point.
+	The integration is over the full body and due to the cumulative property of volume integrals (we can split one integral over as many sub-volumes as we wish), we can add the moments of inertia of the different parts \textbf{as long as these are taken about the same point.}
+	Once again, I will not go into the details of how this is derived (it is not very difficult from the point-mass definition of angular momentum) -- look into either of \cite{David_Tong,Goldstein,ADCS_bible} for the details.
+
+	Applying this definition to a homogeneous cylinder of length $l$, radius $r$ and mass $m$, one can easily get the following moments of inertia for it 
+	\begin{eqnarray}
+		I_{\mathrm{axis}} &=& \frac{1}{2} m r^2 \\
+		I_{\mathrm{ortho}} &=& \frac{1}{12}m( 3r^2 + l^2 ),
+	\end{eqnarray}
+	where $I_{\mathrm{axis}}$ denotes the axis of rotation corresponding to the cylinder axis of symmetry, while $I_{\mathrm{ortho}}$ is the moment of inertia about any axis orthogonal to it.
+	By "homogeneous", I mean that $m = V\rho = 2\pi r l \rho$ where $\rho = \mathrm{const}$ throughout the body.
+
+	The definition \eqref{moi_definition} also makes it quite straightforward to prove what is known as the parallel axis theorem.
+	Displacing the origin of the coordinate system from the center of mass only shifts it based on this displacement vector.
+	Given a moment of inertia $\mathbf{I}$ about the center of mass of a body with mass $m$, a shift of coordinates with $\vec{r}' = \vec{r} + \vec{R}$ will produce a new moment of inertia about the new point $\vec{R}$ from the center of mass -- $\mathbf{I}'$, which is given by
+	\begin{eqnarray}
+		\mathbf{I}' = \mathbf{I} + mR^2
+	\end{eqnarray}
+
+	I will not go in so much detail as to how I have estimated the T-handle moments of inertia.
+	In summary -- I've considered the body as composed of two cylinders with different radii and lengths and summed the moment of inertia for them as a break-up of the larger volume integral with several applications of the parallel axis theorem.
+	I've obtained the center of mass considering that the material is homogeneous (i.e. the mass ratio of the two cylinders is only proportional to their volumes ratio).
 	
-%	\newpage
+	Referring to FIG.\ref{T_handle_axes} for the names of the principal axes, my estimates are:
+	\begin{itemize}
+		\item $I_1 \cong 7.27 \times 10^{-5} \ [\mathrm{kg.m^2}]$
+		\item $I_2 \cong 1.46 \times 10^{-4} \ [\mathrm{kg.m^2}]$
+		\item $I_3 \cong 2.10 \times 10^{-4} \ [\mathrm{kg.m^2}]$
+	\end{itemize} 
+
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=0.5\textwidth]{T_handle_axes.png}
+		\caption{The notation adopted for the three moments of inertia shown on top of the T-handle. $I_1$ is the smallest moment of inertia while $I_3$ is the largest.}\label{T_handle_axes}
+	\end{figure}
+	
+	\noindent \textbf{Note:} I don't claim that the results above are very accurate, they are order of magnitude estimates based on sizes I can judge from the screen.
+	I am confident that a much better estimation can be extracted with some more effort and by computing the moment of inertia tensor directly through a CAD model.
+
+	The \textbf{Results} folder has several .gifs generated using these numbers and initial values in the range 0.1 -- 1 Hz along the intermediate axis with a perturbation which is 100 times smaller about the smallest moment of inertia.
+	These indeed appear quite close to what is seen on the video, but just for each case, I will compare the numerical results to the perturbative solution based on \eqref{Perturbed_oscillator} to confirm.
+
+	\subsection{Numerical vs. perturbative results}
+
+	\section{Conclussions}
+	
+	\newpage
 	\begin{thebibliography}{9}
 
 	\bibitem{David_Tong}
