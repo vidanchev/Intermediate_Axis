@@ -31,6 +31,41 @@ def plot_2D( time , om_arr , fig_name ):
 
     plt.show( )
 
+# Make a 2D plot comparing 2 angular velocity results
+# Inputs:
+# - First time array (time_1[ N ]) [sec]
+# - Second time array (time_2[ N ]) [sec]
+# - First angular rate array (om_arr_1[ N ][ 3 ]) [rad/s]
+# - Second angular rate array (om_arr_2[ N ][ 3 ]) [rad/s]
+# - fig-name:
+# -- "0" if no figure is to be saved
+# -- string which is the fig name otherwise
+# NOTE: The first figure will be with solid line, second one will be with dots on top!
+def plot_2D_comparison( time_1 , time_2 , om_arr_1 , om_arr_2 , fig_name ):
+
+    # Plot the results
+    fig, ax = plt.subplots()
+
+    ax.plot( time_1 , np.transpose( om_arr_1 )[ 0 ] , linestyle = "solid" , label = r"$\omega_x$ numerical" , color = "red" )
+    ax.plot( time_1 , np.transpose( om_arr_1 )[ 1 ] , linestyle = "solid" , label = r"$\omega_y$ numerical" , color = "green" )
+    ax.plot( time_1 , np.transpose( om_arr_1 )[ 2 ] , linestyle = "solid" , label = r"$\omega_z$ numerical" , color = "blue" )
+
+    ax.plot( time_2 , np.transpose( om_arr_2 )[ 0 ] , linestyle = "dotted" , linewidth = 2 , label = r"$\omega_x$ perturbed" , color = "forestgreen" )
+    ax.plot( time_2 , np.transpose( om_arr_2 )[ 1 ] , linestyle = "dotted" , linewidth = 2 , label = r"$\omega_y$ perturbed" , color = "royalblue" )
+    ax.plot( time_2 , np.transpose( om_arr_2 )[ 2 ] , linestyle = "dotted" , linewidth = 2 , label = r"$\omega_z$ perturbed" , color = "brown" )
+
+    plt.xlabel( "Time (s)" )
+    plt.ylabel( "Angular Rate [rad/s]" )
+    plt.title( "Exact vs. Perturbative comparison" )
+    plt.legend( loc = "upper right" )
+
+    plt.grid()
+
+    if fig_name != "0":
+        fig.savefig( fig_name + ".png" , format = "png" )
+
+    plt.show( )
+
 # Make a 3D animation of the results for the angular velocity
 # Inputs:
 # - Time array (time[ N ]) [sec]
