@@ -50,9 +50,9 @@ def plot_2D_comparison( time_1 , time_2 , om_arr_1 , om_arr_2 , fig_name ):
     ax.plot( time_1 , np.transpose( om_arr_1 )[ 1 ] , linestyle = "solid" , label = r"$\omega_y$ numerical" , color = "green" )
     ax.plot( time_1 , np.transpose( om_arr_1 )[ 2 ] , linestyle = "solid" , label = r"$\omega_z$ numerical" , color = "blue" )
 
-    ax.plot( time_2 , np.transpose( om_arr_2 )[ 0 ] , linestyle = "dotted" , linewidth = 2 , label = r"$\omega_x$ perturbed" , color = "forestgreen" )
-    ax.plot( time_2 , np.transpose( om_arr_2 )[ 1 ] , linestyle = "dotted" , linewidth = 2 , label = r"$\omega_y$ perturbed" , color = "royalblue" )
-    ax.plot( time_2 , np.transpose( om_arr_2 )[ 2 ] , linestyle = "dotted" , linewidth = 2 , label = r"$\omega_z$ perturbed" , color = "brown" )
+    ax.plot( time_2 , np.transpose( om_arr_2 )[ 0 ] , linestyle = "dotted" , linewidth = 3 , label = r"$\omega_x$ perturbed" , color = "forestgreen" )
+    ax.plot( time_2 , np.transpose( om_arr_2 )[ 1 ] , linestyle = "dotted" , linewidth = 3 , label = r"$\omega_y$ perturbed" , color = "royalblue" )
+    ax.plot( time_2 , np.transpose( om_arr_2 )[ 2 ] , linestyle = "dotted" , linewidth = 3 , label = r"$\omega_z$ perturbed" , color = "brown" )
 
     plt.xlabel( "Time (s)" )
     plt.ylabel( "Angular Rate [rad/s]" )
@@ -62,7 +62,7 @@ def plot_2D_comparison( time_1 , time_2 , om_arr_1 , om_arr_2 , fig_name ):
     plt.grid()
 
     if fig_name != "0":
-        fig.savefig( fig_name + ".png" , format = "png" )
+        fig.savefig( fig_name + ".eps" , format = "eps" )
 
     plt.show( )
 

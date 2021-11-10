@@ -4,4 +4,4 @@
 \contentsline {section}{\numberline {4}Comparison with the video and code verification}{4}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Estimating the T-Handle moments of inertia}{4}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Numerical vs. perturbative results}{6}{subsection.4.2}%
-\contentsline {section}{\numberline {5}Conclussions}{6}{section.5}%
+\contentsline {section}{\numberline {5}Conclussions}{7}{section.5}%

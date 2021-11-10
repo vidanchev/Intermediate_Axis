@@ -8,10 +8,11 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{graphicx, color}
+\usepackage[caption=false]{subfig}
 
 % Author info
 \title{Short explanation of the Intermediate Axis Theorem}
-\author{Victor I.  Danchev}
+\author{Victor I.  Danchev \\ \href{vidanchev@uni-sofia.bg}{vidanchev@uni-sofia.bg}}
 
 \date{
 	Sofia University St.  Kliment Ohridski \\ 
@@ -30,7 +31,7 @@
 	I've met a lot of people since then who were very interested in the phenomenology and the effect - it is usually referred to as the "Intermediate Axis Theorem". 
 	The purpose of this handout is to provide a concise and straightforward (hopefully intuitive) description of the intermediate axis theorem and to derive it in the case of small angles of deflection. 
 	This derivation will then be used to test a simple numerical integrator (using Runge-Kutta method) and verify its accuracy in this short deflection regime.
-	Be warned though,  it may contain traces of math!
+	Be warned though, it may contain traces of math!
 	\end{abstract}
 
 	\tableofcontents
@@ -221,8 +222,88 @@
 	These indeed appear quite close to what is seen on the video, but just for each case, I will compare the numerical results to the perturbative solution based on \eqref{Perturbed_oscillator} to confirm.
 
 	\subsection{Numerical vs. perturbative results}
+	For verification purposes, I want to compare the numerical solution to what is predicted by the linearized equations (for small perturbations).
+	Taking the definition \eqref{kappa_eq}, the general solution to the 2nd order linear differential equation \eqref{Perturbed_oscillator} is 
+	\begin{eqnarray}\label{dom1_sol_stable}
+		\delta \omega_1 = c_1 \cos( \kappa t ) + c_2 \sin( \kappa t ),
+	\end{eqnarray} 
+	when $I_3$ is the largest or smallest moment of inertia, and 
+	\begin{eqnarray}\label{dom1_sol_unstable}
+		\delta \omega_1 = c_1 \exp( \kappa t ) + c_2 \exp( \kappa t )
+	\end{eqnarray}
+	when $I_3$ is the intermediate moment of inertia.
+	In either of these equations, the constants $c_1$ and $c_2$ are determined fully by the initial conditions (what $\delta \vec{\omega}(0)$ is).
+	One can also integrate \eqref{Perturbed_Euler_2} given the $\delta \omega_1$ solution and obtain the function $\delta \omega_2(t)$ accordingly.
+	Focusing on the case where $I_3$ is the largest or smallest moment of inertia, this gives 
+	\begin{eqnarray}\label{dom2_sol_stable}
+		\delta \omega_2 = \Theta \left[ c_1 \sin( \kappa t ) - c_2 \cos( \kappa t ) \right],
+	\end{eqnarray}
+	where I have defined an axiluary dimensionless quantity which comes out of the integration as
+	\begin{eqnarray}
+		\Theta = \sqrt{ \frac{ (I_3 - I_1) I_1 }{ ( I_2 - I_3 ) I_2 } }.
+	\end{eqnarray}
+	It is simple to see that \eqref{dom1_sol_stable} and \eqref{dom2_sol_stable} along with $\delta \omega_3 = 0$ indeed solve the system of equations \eqref{Perturbed_Euler_1}-\eqref{Perturbed_Euler_3}.
+	As expected, the $\delta \vec{\omega}$ vector describes a periodic closed trajectory (ellipse as we'll see bellow) which depends on the initial data when perturbed lightly about the largest or smallest moment of inertia -- it is precession.
+	
+	Now we can choose a particular starting state to use for verification purposes.
+	A simple option is to perturb the angular velocity only in one direction.
+	Suppose that the initial perturbation vector is $\delta \vec{\omega}( 0 ) = [ \delta \omega , 0 , 0 ]^T$.
+	Then applying the boundary conditions $c_1 = \delta \omega$ and $c_2 = 0$ which leads us to the full angular rate solution (up to $O(\delta \omega^2)$ terms) as
+	\begin{eqnarray}\label{Perturbative_result}
+		\vec{\omega} = 
+		\begin{bmatrix}
+				\delta \omega \cos( \kappa t ) \\
+				\Theta \delta \omega \sin( \kappa t ) \\
+				\Omega
+		\end{bmatrix}.
+	\end{eqnarray}
+
+	It is now straightforward to check whether this solution matches with our numerical solution.
+	The script $\mathrm{Perturbative\_Test.py}$ executes and plots exactly a comparison between the result \eqref{Perturbative_result} and the numerical integration for the same initial conditions $\vec{\omega}( 0 ) = [ \delta \omega , 0 , \Omega ]^T$.
+	Figure \ref{Numerical_vs_Perturbative_plot} shows the results for two different ratios of the perturbation to the "primary" angular velocity.
+
+	\begin{figure}[ht]
+		\subfloat[$\delta\omega/\Omega = 0.1$]{
+			\begin{minipage}[c][1\width]{
+				0.5\textwidth}
+			 	\centering
+			 	\includegraphics[width=1\textwidth]{Num_vs_Perturbed_Comparison_0.100scale.eps}
+		  	\end{minipage}}
+		\subfloat[$\delta\omega/\Omega = 0.5$]{
+		  	\begin{minipage}[c][1\width]{
+				0.5\textwidth}
+				\centering
+				\includegraphics[width=1\textwidth]{Num_vs_Perturbed_Comparison_0.500scale.eps}
+		  	\end{minipage}}
+	  	\caption{Comparison of the perturbative and numerical solutions for the same body with initial conditions ratio $\delta \omega/\Omega$ equal to 0.1  and 0.5 respectively.}\label{Numerical_vs_Perturbative_plot}
+	\end{figure}
+	
+	It is quite evident that the approximation holds much better in the first case where $O(\delta\omega^2)$ is only a 1\% correction to the end result.
+	One can hardly see a deviation between the two results in this case.
+	In the latter case, the perturbative solution starts exactly on the numerical one but it diverges much faster since the error $O(\delta \omega^2)$ is about 25\% ($0.5^2$) and higher terms would be needed to retain the accuracy.
+	This is well expected and of course the larger the ratio of $\delta \omega/\Omega$ becomes, the faster our approximation will break down.
+	
+	Nevertheless, it shows that the numerical solver acts just as it should in the "weak regime" of the equations which is often a good test when no exact solution in the full non-linear regime can be obtained.
+	One can easily check that similar small deviations with primary $\Omega$ around the smallest moment of inertia (X-axis) will also lead to very good agreement between the perturbative solution and the numerical solver.
+
+	On the other hand, some of you might try to modify the code in order to see how well the approximation works in the case of intermediate axis rotation.
+	More generally, you might want to see if you can see the "flip" of the T-handle from the perturbation-only?
+	A quick glimpse at \eqref{dom1_sol_unstable} should persuade you that the answer is a "no".
+	The two exponentials are completely unconstrained - arbitrarily small perturbation $\delta \omega$ will grow indefinitely which is definitely not a physical behaviour.
+	The reason for that is very simple -- the linear equations \eqref{Perturbed_Euler_1}-\eqref{Perturbed_Euler_3} are only an approximation around an equilibrium point.
+	If you think about the differential equation as a trajectory in some 3D space (in this case the space would be a hypersphere), linearizing the equations is equivalent to solving them on a hyperplane which is tangent to that space instead of doing so on the real space.
+	The linearization "blurs" the curvature of the solution around the equilibrium point.
+	Of course, if you stay very close to the point - this is a good approximation (the Earth looks flat up close).
+	When the solution is inherently unstable, however (like the intermediate axis case), it moves away from that equilibrium and towards a region where the approximation fails completely.
+	This is quite apparent in this case - the real angular velocity of an isolated body cannot change indefinitely (it is bound by the conservation of angular momentum), while the perturbative solution \eqref{dom1_sol_unstable} predicts unbounded growth.
+	Geometrically speaking - one is a trajectory on a sphere while the other is its projection on a plane tangent to that sphere (with the pole at infinity)!
+	If you are interested in the geometrical description and interpretation of such phenomena, \cite{Geometry_Frankel} is an excellent book with many applications (including rigid body dynamics) to get you started!
 
 	\section{Conclussions}
+	I started this small project to explain a phenomenon which I found quite interesting to model as an undergraduate.
+	Probably the most interesting thing about the intermediate axis theorem to me was that it is something we can see all around us (even by throwing a textbook) but very few people have an intuition about it even though it was first described some 200 years ago!
+	Beyond the phenomenon itself, I hope that you found its description and my rumbling about stability, non-linear systems and geometry useful (or at least interesting)!
+	This document and the accompanying code have no purpose beyond education!
 	
 	\newpage
 	\begin{thebibliography}{9}
@@ -234,8 +315,10 @@
 	H.~Goldstein, C.~Poole and J.~Safko, \textit{Classical Mechanics}.
 	
 	\bibitem{ADCS_bible}
-	F.~Landis~Markley and John~L.~Crassidis, \textit{Fundamentals of Spacecraft Attitude Determination and Control}
+	F.~Landis~Markley and John~L.~Crassidis, \textit{Fundamentals of Spacecraft Attitude Determination and Control}.
 
+	\bibitem{Geometry_Frankel}
+	T.~Frankel, \textit{The Geometry of Physics: An Introduction}.
 
 
 	\end{thebibliography}

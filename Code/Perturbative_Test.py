@@ -18,12 +18,12 @@ def pert_sol_arrays( npoints , time_tot , main_Om , dom ):
 
     # Kappa computation
     kap = np.sqrt( abs( ( moi[ 1 ][ 1 ] - moi[ 2 ][ 2 ] )*( moi[ 2 ][ 2 ] - moi[ 0 ][ 0 ] )*main_Om*main_Om/( moi[ 0 ][ 0 ]*moi[ 1 ][ 1 ] ) ) )
-    thet = - ( moi[ 1 ][ 1 ] - moi[ 2 ][ 2 ] )*main_Om/moi[ 0 ][ 0 ]
+    thet = np.sqrt( abs( ( moi[ 2 ][ 2 ] - moi[ 0 ][ 0 ] )*moi[ 0 ][ 0 ]/( ( moi[ 1 ][ 1 ] - moi[ 2 ][ 2 ] )*moi[ 1 ][ 1 ] ) ) )
     t_pert = np.linspace( 0 , time_tot , npoints )
     om_pert = np.zeros( ( npoints , 3 ) )
     
     for i in range( 0 , npoints ):
-        om_pert[ i ] = [ dom*np.cos( kap*t_pert[ i ] ) , dom*np.sin( kap*t_pert[ i ] ) , main_Om ]
+        om_pert[ i ] = [ dom*np.cos( kap*t_pert[ i ] ) , dom*thet*np.sin( kap*t_pert[ i ] ) , main_Om ]
 
     return t_pert , om_pert
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     q_init = [ 1.0 , 0.0 , 0.0 , 0.0 ]
 
     # Initial body angular velocity in body-frame [rad/s]
-    om_init = [ pi/( 6.0 ) , 0.0 , pi/3.0 ]
+    om_init = [ pi/30.0 , 0.0 , pi/3.0 ]
     rat_om = om_init[ 0 ]/om_init[ 2 ] # scale of \delta \omega compared to \Omega (ratio)
 
     npoints = 1000 # Number of points for integrator [-]
